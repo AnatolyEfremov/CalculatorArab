@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         while (true) {
-            //System.out.println(isCorrectInput(new Scanner(System.in).nextLine()));
+            //System.out.println(isException3(new Scanner(System.in).nextLine()));
             System.out.println(calc(new Scanner(System.in).nextLine()));
         }
     }
@@ -26,9 +26,12 @@ public class Main {
                 default: i++; a.append(input.charAt(i)); //continue;
             }
         } else if (isException1(input)) {
-            throw new RuntimeException("//т.к. строка не является математической операцией");
+            throw new RuntimeException("т.к. строка не является математической операцией");
         } else if (isException2(input)) {
             throw new RuntimeException("т.к. формат математической операции не удовлетворяет заданию - два операнда и один оператор (+, -, /, *)");
+        } else if (isException3(input)&&!isCorrectInput(input)) {
+            throw new RuntimeException("т.к Калькулятор умеет работать только с целыми числами от 1 до 10");
+
         }
         return "Не предвиденная ошибка";
     }
@@ -36,11 +39,14 @@ public class Main {
         return s.matches("(1|2|3|4|5|6|7|8|9|10)(\\+|-|/|\\*)(1|2|3|4|5|6|7|8|9|10)$");
     }
     static Boolean isException1(String s) {
-        return s.matches("(1|2|3|4|5|6|7|8|9|10)$");
+        return s.matches("(\\d*)$")||s.matches("(\\w*)$");
 
     }
     static Boolean isException2(String s) {
         return s.matches("(1|2|3|4|5|6|7|8|9|10)(\\+|-|/|\\*)(1|2|3|4|5|6|7|8|9|10)(\\+|-|/|\\*)(1|2|3|4|5|6|7|8|9|10)$");
 
+    }
+    static Boolean isException3(String s) {
+        return s.matches("(\\d+(?:\\.\\d+)?)\\s*([-+*\\/])\\s*(-?\\d+(?:\\.\\d+)?)$");
     }
 }
